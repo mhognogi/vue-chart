@@ -1,0 +1,50 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+
+<div class="app">
+    {{ message }}
+    <line-chart :chart-data="chartData" :options="options"></line-chart>
+</div>
+
+<script>
+    Vue.component("line-chart", {
+        extends: VueChartJs.Bar,
+        props: ["chartData", "options"],
+        mixins: [VueChartJs.mixins.reactiveData],
+        mounted() {
+            this.renderChart(this.chartData, this.options);
+        }
+    });
+
+    var vm = new Vue({
+        el: ".app",
+        data: {
+            message: "Hello World",
+            chartData: null,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        },
+        mounted() {
+            this.sampleAsync();
+        },
+        methods: {
+            sampleAsync() {
+                this.chartData = {
+                    labels: [
+                        "January",
+                        "February",
+                        "March"
+                    ],
+                    datasets: [{
+                            label: "Data One",
+                            backgroundColor: "#f87979",
+                            data: [40, 0, 100]
+                    }]
+                };
+            }
+        }
+    });
+</script>
